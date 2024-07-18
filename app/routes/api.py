@@ -129,7 +129,7 @@ def create_result(params, recordsTotal, recordsFiltered, rows):
 # *** API-SiteUser **************************************************
 
 
-@router_api.get("/site/site_user/{id}")
+@router_api.get("/site/site_user/{id}/")
 async def get_site_site_user(
     id: int,
     user_jwt=Depends(get_jwt_access),
@@ -194,7 +194,7 @@ async def post_site_user(
     return {"success": success, "msg": msg, "data": data}
 
 
-@router_api.put("/site/site_user/{id}")
+@router_api.put("/site/site_user/{id}/")
 async def put_site_user(
     id: int,
     user_jwt=Depends(get_jwt_access),
@@ -238,7 +238,7 @@ async def put_site_user(
     return {"success": success, "msg": msg, "data": data}
 
 
-@router_api.delete("/site/site_user/{id}")
+@router_api.delete("/site/site_user/{id}/")
 async def delete_site_site_user(
     id: int,
     user_jwt=Depends(get_jwt_access),
@@ -269,7 +269,7 @@ async def delete_site_site_user(
 # *** API-SystemUser **************************************************
 
 
-@router_api.get("/system_user/{id}")
+@router_api.get("/system_user/{id}/")
 async def get_system_user(
     id: int,
     user_jwt=Depends(get_jwt_access),
@@ -361,7 +361,7 @@ async def put_system_user(
 # *** API-Transaction **************************************************
 
 
-@router_api.get("/transaction/{id}")
+@router_api.get("/transaction/{id}/")
 async def get_transaction(
     id: int,
     card_id: str = None,
@@ -425,7 +425,7 @@ async def get_transaction(
     return {"success": success, "msg": msg, "data": data, "info": info}
 
 
-@router_api.get("/transaction_record/{id}")
+@router_api.get("/transaction_record/{id}/")
 async def get_transaction_record(
     id: int,
     user_jwt=Depends(get_jwt_access),
@@ -545,7 +545,7 @@ async def post_transaction(
     return {"success": success, "msg": msg, "data": data}
 
 
-@router_api.put("/transaction/{id}")
+@router_api.put("/transaction/{id}/")
 async def put_transaction(
     id: int,
     user_jwt=Depends(get_jwt_access),
