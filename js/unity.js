@@ -479,7 +479,7 @@ async function fetchWithTimeout(resource, options = {}) {
 
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), timeout);
-    console.log(resource);
+    // console.log(resource);
     const response = await fetch(resource, {
         ...options,
         signal: controller.signal,
@@ -491,6 +491,9 @@ async function fetchWithTimeout(resource, options = {}) {
 
 export async function fetchApi(path = "", method = "get", body = null, returnType = "text", header = true) {
     // debug(String(typeof body));
+    const origin = location.origin;
+    // debug(origin);
+    path = origin + path;
     const _token = ` ${UserSession.data.token}`;
     const headers_json = {
         accept: "application/json",
