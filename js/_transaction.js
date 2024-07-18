@@ -467,7 +467,8 @@ export async function getTransactionOut(card_id = null) {
         unity.showWaitDialog(true);
         transaction_id = 0;
         const _reply = await unity.fetchApi(
-            api_path + `${card_ids[0]}/?card_id=${encodeURIComponent(card_ids[1])}`,
+            // api_path + `${card_ids[0]}/?card_id=${encodeURIComponent(card_ids[1])}`,
+            api_path + `/?card_id=${encodeURIComponent(card_ids[1])}`,
             "get",
             null,
             "json"
