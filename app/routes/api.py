@@ -361,10 +361,9 @@ async def put_system_user(
 # *** API-Transaction **************************************************
 
 
-@router_api.get("/transaction/{id}/")
+@router_api.get("/transaction/{id}")
 async def get_transaction(
     id: int,
-    card_id: str = None,
     user_jwt=Depends(get_jwt_access),
     db: AsyncSession = Depends(get_async_session),
 ):
@@ -378,43 +377,68 @@ async def get_transaction(
     stamp_by: Site_User = aliased(Site_User)
     success_by: Site_User = aliased(Site_User)
     table = Transaction
-    if id:
-        _sql = (
-            select(
-                table,
-                create_by.username.label("create_by"),
-                stamp_by.username.label("stamp_by"),
-                success_by.username.label("success_by"),
-                create_by.pictureUrl.label("create_pictureUrl"),
-                stamp_by.pictureUrl.label("stamp_pictureUrl"),
-                success_by.username.label("success_by"),
-            )
-            .where(table.id == id)
-            .outerjoin(create_by, (create_by.id == table.create_by))
-            .outerjoin(stamp_by, (stamp_by.id == table.stamp_by))
-            .outerjoin(success_by, (success_by.id == table.success_by))
-        )
-        data = (await db.execute(_sql)).mappings().one_or_none()
 
-        success = True
-    else:
-        if card_id:
-            _sql = (
-                select(
-                    table,
-                    create_by.username.label("create_by"),
-                    stamp_by.username.label("stamp_by"),
-                    success_by.username.label("success_by"),
-                    create_by.pictureUrl.label("create_pictureUrl"),
-                    stamp_by.pictureUrl.label("stamp_pictureUrl"),
-                )
-                .where(table.card_id == card_id)
-                .outerjoin(create_by, (create_by.id == table.create_by))
-                .outerjoin(stamp_by, (stamp_by.id == table.stamp_by))
-                .outerjoin(success_by, (success_by.id == table.success_by))
-            )
-            data = (await db.execute(_sql)).mappings().one_or_none()
-            success = True
+    _sql = (
+        select(
+            table,
+            create_by.username.label("create_by"),
+            stamp_by.username.label("stamp_by"),
+            success_by.username.label("success_by"),
+            create_by.pictureUrl.label("create_pictureUrl"),
+            stamp_by.pictureUrl.label("stamp_pictureUrl"),
+            success_by.username.label("success_by"),
+        )
+        .where(table.id == id)
+        .outerjoin(create_by, (create_by.id == table.create_by))
+        .outerjoin(stamp_by, (stamp_by.id == table.stamp_by))
+        .outerjoin(success_by, (success_by.id == table.success_by))
+    )
+    data = (await db.execute(_sql)).mappings().one_or_none()
+
+    success = True
+
+    print_debug(data)
+    info = {}
+    if data:
+        _Transaction: Transaction = data["Transaction"]
+        info["parked"] = str(time_now() - _Transaction.create_date).split(".")[0]
+        print_debug(info)
+    return {"success": success, "msg": msg, "data": data, "info": info}
+
+
+@router_api.get("/transaction/")
+async def get_transaction_card_id(
+    card_id: str = None,
+    user_jwt=Depends(get_jwt_access),
+    db: AsyncSession = Depends(get_async_session),
+):
+    """get_transaction_card_id"""
+    # print_debug(user_jwt)
+    success = False
+    data = None
+    msg = ""
+    # current_time = time_now()
+    create_by: Site_User = aliased(Site_User)
+    stamp_by: Site_User = aliased(Site_User)
+    success_by: Site_User = aliased(Site_User)
+    table = Transaction
+
+    _sql = (
+        select(
+            table,
+            create_by.username.label("create_by"),
+            stamp_by.username.label("stamp_by"),
+            success_by.username.label("success_by"),
+            create_by.pictureUrl.label("create_pictureUrl"),
+            stamp_by.pictureUrl.label("stamp_pictureUrl"),
+        )
+        .where(table.card_id == card_id)
+        .outerjoin(create_by, (create_by.id == table.create_by))
+        .outerjoin(stamp_by, (stamp_by.id == table.stamp_by))
+        .outerjoin(success_by, (success_by.id == table.success_by))
+    )
+    data = (await db.execute(_sql)).mappings().one_or_none()
+    success = True
 
     print_debug(data)
     info = {}
