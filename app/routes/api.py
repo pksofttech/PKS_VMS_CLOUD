@@ -361,7 +361,7 @@ async def put_system_user(
 # *** API-Transaction **************************************************
 
 
-@router_api.get("/transaction/{id}")
+@router_api.get("/transaction/{id}/")
 async def get_transaction(
     id: int,
     card_id: str = None,
