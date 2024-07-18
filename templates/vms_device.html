@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include '_meta.html' %}
+    <link rel="stylesheet" href="/static/plugins/swiper/swiper-bundle.min.css" />
+</head>
+
+<!-- <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed"> -->
+
+<body class="bg-base-100 ">
+    <div class="drawer lg:drawer-open ">
+        <input id="side-drawer" type="checkbox" class="drawer-toggle" />
+        <div class="container relative flex flex-col px-2 mx-auto drawer-content">
+            {% include '_nav_bar.html' %}
+            <div class="content_box">
+                <div class="text-sm text-center text-primary" id="site_user_info-ele"><i class="fa-solid fa-user-circle"></i> </div>
+                <div class="text-sm text-center"><i class="fa-solid fa-reply"></i> เลือกทำรายการ <i class="fa-solid fa-share"></i></div>
+                <div class="w-full swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide ">
+                            <!-- ** DATA ROW -->
+                            <div class="flex flex-col gap-4 mx-auto card max-w-80 md:max-w-md bg-base-200">
+                                <div class="text-2xl text-center">รายการผู้มาติตต่อ</div>
+                                <table id="table_transaction_list" class="table table-hover table-striped display nowrap">
+                                </table>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <!-- ** IN PROCESS -->
+                            <div class="flex flex-col gap-4 mx-auto card max-w-80 md:max-w-md" id="FromTransactionData">
+                                <div class="text-2xl text-center">ทำรายการ-เข้า</div>
+                                <label class="flex items-center gap-4 input input-bordered text-primary ">
+                                    <button type="button" class="btn btn-circle btn-sm" onclick="document.getElementById('input_card_id-001').value = ''">
+                                        <i class="fas fa-remove fa-2x"></i>
+                                    </button>
+                                    <input type="number" class="input_content" name="card_id" id="input_card_id-001" required autocomplete="off"
+                                        placeholder="เลขบัตรประชาชน/ใบขับขี่" style="letter-spacing: .2rem;">
+                                    <button type="button" class="btn btn-circle btn-sm" onclick="app_event({module:'transaction', cmd:'submit_transaction'});">
+                                        <i class="fa fa-solid fa-square-check fa-2x"></i>
+                                    </button>
+                                </label>
+
+                                <label class="flex items-center gap-4 input input-bordered text-primary ">
+                                    <span class="input_lable">ชื่อ-นามสกุล</span>
+                                    <input type="text" class="input_content" name="name" required placeholder="ชื่อ-นามสกุล">
+                                    <i class="fa-solid fa-building-circle-check "></i>
+                                </label>
+
+                                <label class="flex items-center gap-4 input input-bordered text-primary ">
+                                    <span class="input_lable">ทะเบียนรถ</span>
+                                    <input type="text" class="input_content" name="license" placeholder="ทะเบียนรถ" maxlength="10" style="letter-spacing: .2rem;">
+                                    <i class="fa-solid fa-building-circle-check "></i>
+                                </label>
+
+                                <label class="flex items-center gap-4 input input-bordered text-primary ">
+                                    <span class="input_lable">เบอร์โทรศัพท์</span>
+                                    <input type="tel" class="input_content" name="tel" placeholder="เบอร์โทรศัพท์" maxlength="16" style="letter-spacing: .2rem;">
+                                    <i class="fa-solid fa-building-circle-check "></i>
+                                </label>
+
+                                <label class="flex items-center gap-4 input input-bordered text-primary ">
+                                    <span class="input_lable">บริษัท/สังกัด(visitor)</span>
+                                    <input type="text" class="input_content" name="company" placeholder="บริษัท/สังกัด(visitor)" list="company_lists">
+                                    <datalist id="company_lists">
+                                    </datalist>
+                                    <i class="fa-solid fa-building-circle-check "></i>
+                                </label>
+
+                                <label class="flex items-center gap-4 input input-bordered text-primary ">
+                                    <span class="input_lable">วัตถุประสงค์</span>
+                                    <input type="text" class="input_content" name="objective" placeholder="วัตถุประสงค์" list="objective_lists">
+                                    <datalist id="objective_lists">
+                                        <option>ไปหาบุคคลที่-001</option>
+                                        <option>ไปหาบุคคลที่-002</option>
+                                        <option>ไปหาบุคคลที่-003</option>
+                                        <option>ไปหาบุคคลที่-004</option>
+                                        <option>ไปหาบุคคลที่-005</option>
+                                        <option>ไปหาบุคคลที่-006</option>
+                                    </datalist>
+                                    <i class="fa-solid fa-building-circle-check "></i>
+                                </label>
+
+                                <label class="flex items-center gap-4 input input-bordered text-primary ">
+                                    <span class="input_lable">ชื่อผู้ติดต่อ</span>
+                                    <input type="text" class="input_content" name="contacts" placeholder="ชื่อผู้ติดต่อ" list="contact_lists">
+                                    <datalist id="contact_lists">
+                                    </datalist>
+                                    <i class="fa-solid fa-building-circle-check "></i>
+                                </label>
+
+                                <textarea name="remark" autocomplete="off" class="textarea" rows="3" placeholder="ข้อมูลทำรายการเพื่มเติม"></textarea>
+
+
+                                <button class="w-full btn btn-error btn-lg" onclick="app_event({module:'transaction', cmd:'submit_transaction'});">ทำรายการ</button>
+                                <div class="relative p-1 border rounded-md border-info">
+                                    <img src="/static/image/bg001.jpg" name="image_in_url" id="imageWebCam01" class="mx-auto rounded-lg img-fluid">
+                                    <button type="button" class="absolute btn btn-lg btn-warning btn-outline top-2 left-2 "
+                                        onclick="app_event({module:'transaction', cmd:'startWebCam'});">
+                                        <i class="fas fa-camera-retro fa-2x"></i>
+                                    </button>
+                                    <div>
+                                        รูปทำรายการ
+                                    </div>
+                                    <canvas class="hidden " id="canvas_web_cam"></canvas>
+                                    <canvas class="hidden " id="canvas_web_cam_water_mark"></canvas>
+
+                                </div>
+
+                                <div class="h-full p-1 border rounded-md border-primary">
+                                    <div>
+                                        รายการล่าสุด
+                                    </div>
+                                    <div class="p-1">
+                                        <img src="/static/slip.png" id="vmsSlipRegistor" class="mx-auto img-fluid" alt="">
+                                        <div class="hidden" id="qrcode"></div>
+                                    </div>
+                                    <button type="button" class="w-full btn btn-lg btn-warning" onclick="app_event({module:'transaction', cmd:'printSlip'});">
+                                        <i class="fa-solid fa-print"></i> พิมพ์รายการ
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide ">
+                            <!-- ** OUT PROCESS -->
+                            <div class="flex flex-col gap-4 mx-auto card max-w-80 md:max-w-md" id="FromTransactionDataOut">
+                                <div class="text-2xl text-center">ทำรายการ-ออก</div>
+
+                                <label class="flex items-center gap-4 input input-bordered text-primary ">
+                                    <button type="button" class="btn btn-circle btn-sm" onclick="app_event({module:'transaction', cmd:'getTransactionOutClear'});">
+                                        <i class="fas fa-remove fa-2x"></i>
+                                    </button>
+
+                                    <input type="tel" name="card_id" id="input_card_id-002" maxlength="13" class="input_content" style="letter-spacing: 2px;" required
+                                        autocomplete="off" onkeypress="app_event({module:'transaction', cmd:'inputCardIdKeypass',event:event});">
+
+                                    <button type="button" class="btn btn-circle btn-sm" onclick="app_event({module:'transaction', cmd:'scanQrCode',mode:true});">
+                                        <i class="fas fa-qrcode fa-2x"></i>
+                                    </button>
+                                </label>
+
+
+                                <div class="card">
+                                    <div class="mx-auto mb-1 avatar">
+                                        <div class="w-36 mask mask-squircle">
+                                            <img name="image_in_url" src="/static/image/bg001.jpg" id="view_image_info_001" />
+                                        </div>
+                                        <button class="absolute bottom-0 right-0 btn-sm btn btn-circle btn-warning btn-outline"
+                                            onclick="app_event({ cmd:'view_image_info',id:'view_image_info_001'});">
+                                            <i class="fas fa-magnifying-glass-plus"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="shadow stats stats-vertical">
+                                        <div class="stat">
+                                            <div class="stat-title">ข้อมูลทำรายการเข้า</div>
+                                            <div> ผู้ทำรายการ <span name="create_by" data-info></span></div>
+                                            <span class="stat-desc" data-datetime="true" name="create_date" data-info></span>
+
+                                            <div class="stat-figure text-secondary">
+                                                <div class="avatar">
+                                                    <div class="w-16 rounded-full">
+                                                        <img name="create_pictureUrl" src="/static/image/Image_not_available.png" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="stat">
+                                            <div class="stat-title">ข้อมูลการประทับตรา</div>
+                                            <div> ผู้ทำรายการ <span name="stamp_by" data-info></span></div>
+                                            <span class="stat-desc" data-datetime="true" name="stamp_date" data-info></span>
+                                            <div class="stat-figure text-secondary">
+                                                <div class="avatar">
+                                                    <div class="w-16 rounded-full">
+                                                        <img name="stamp_pictureUrl" src="/static/image/Image_not_available.png" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="stat">
+                                            <div class="stat-figure text-secondary">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="stat-title">สถานะ</div>
+                                            <div class="stat-desc"> <span name="status" data-info></span> </div>
+                                            <div class="stat-desc">เวลาอยู่ในพื้นที่ <span name="parked" data-info></span> </div>
+                                        </div>
+
+                                        <div class="stat">
+                                            <div class="stat-title">หมายเหตุ</div>
+                                            <span class="stat-desc" data-datetime="true" name="remark" data-info>-</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="inline-flex justify-between ">
+                                        <button class="mt-2 btn btn-warning btn-outline " id="submit_transaction_stamp_btn" disabled
+                                            onclick="app_event({module:'transaction', cmd:'submit_transaction_stamp'});"><i class="fa-solid fa-stamp"></i>ประทับตรา</button>
+                                        <button class="mt-2 btn btn-error btn-outline " id="submit_transaction_checkout_btn" disabled
+                                            onclick="app_event({module:'transaction', cmd:'submit_transaction_checkout'});"><i
+                                                class="fa-solid fa-user-check"></i>ทำรายการออก</button>
+                                    </div>
+
+                                </div>
+
+                                <div class="flex flex-col gap-2">
+                                    <label class="flex items-center gap-4 input input-bordered text-primary ">
+                                        <span class="input_lable">ชื่อ-นามสกุล</span>
+                                        <input readonly type="text" class="input_content" name="name" required placeholder="ชื่อ-นามสกุล">
+                                        <i class="fa-solid fa-building-circle-check "></i>
+                                    </label>
+
+                                    <label class="flex items-center gap-4 input input-bordered text-primary ">
+                                        <span class="input_lable">ทะเบียนรถ</span>
+                                        <input readonly type="text" class="input_content" name="license" placeholder="ทะเบียนรถ" maxlength="10" style="letter-spacing: .2rem;">
+                                        <i class="fa-solid fa-building-circle-check "></i>
+                                    </label>
+
+                                    <label class="flex items-center gap-4 input input-bordered text-primary ">
+                                        <span class="input_lable">เบอร์โทรศัพท์</span>
+                                        <input readonly type="tel" class="input_content" name="tel" placeholder="เบอร์โทรศัพท์">
+                                        <i class="fa-solid fa-building-circle-check "></i>
+                                    </label>
+
+                                    <label class="flex items-center gap-4 input input-bordered text-primary ">
+                                        <span class="input_lable">บริษัท/สังกัด(visitor)</span>
+                                        <input readonly type="text" class="input_content" name="company" placeholder="บริษัท/สังกัด(visitor)">
+                                        <i class="fa-solid fa-building-circle-check "></i>
+                                    </label>
+
+                                    <label class="flex items-center gap-4 input input-bordered text-primary ">
+                                        <span class="input_lable">วัตถุประสงค์</span>
+                                        <input readonly type="text" class="input_content" name="objective" placeholder="วัตถุประสงค์">
+                                        <i class="fa-solid fa-building-circle-check "></i>
+                                    </label>
+
+                                    <label class="flex items-center gap-4 input input-bordered text-primary ">
+                                        <span class="input_lable">ติดต่อ</span>
+                                        <input readonly type="text" class="input_content" name="contacts" placeholder="ติดต่อ/บุคคล/แผนก/สถานที่">
+                                        <i class="fa-solid fa-building-circle-check "></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- {% include '_side_menu_bar.html' %} -->
+    </div>
+    <!-- {% include '_footer.html' %} -->
+
+    {% include '_modal_dialog.html' %}
+    {% include '_script.html' %}
+    <script src="/static/plugins/swiper/swiper-bundle.min.js"></script>
+    <script type="module" src="/js/vms_device.js?v={{now}}"></script>
+</body>
+
+
+
+</html>

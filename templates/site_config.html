@@ -1,0 +1,107 @@
+<div class="grid gap-4 md:grid-cols-2">
+    <div class="card bg-base-100">
+        <div class="p-2">
+            <div class="flex flex-col gap-4 mx-auto max-w-80 md:max-w-md" id="FromSystemUserData">
+                <h2 class="card-title"> Owner Config</h2>
+                <div class="flex flex-col items-center">
+                    <div class="avatar">
+                        <div class="w-24 rounded-full ring-primary ring-offset-base-100 ring ring-offset-2">
+                            <img name="picture_url" src="{{user.picture_url}}" id="preview-img-of-user" />
+                        </div>
+                    </div>
+                    <label for="formFile-User" name="btn_select_image_file" class="btn btn-sm w-fit">Select Image</label>
+                    <input class="hidden" type="file" id="formFile-User" accept="image/*" onchange="showPreview(event,'preview-img-of-user');">
+                </div>
+                <label class="flex items-center gap-4 input input-bordered text-primary ">
+                    <span class="input_lable">User ID</span>
+                    <input type="text" class="input_content" readonly disabled name="id">
+                    <i class="fa-solid fa-building-circle-check "></i>
+                </label>
+                <label class="flex items-center gap-4 input input-bordered text-primary ">
+                    <span class="input_lable">Email</span>
+                    <input type="email" readonly disabled class="input_content" name=email autocomplete="off" id="inputEmail" placeholder="Email">
+                    <i class="fa-solid fa-building-circle-check "></i>
+                </label>
+
+                <label class="flex items-center gap-4 input input-bordered text-primary ">
+                    <span class="input_lable">Name</span>
+                    <input type="text" class="input_content" name="username" required placeholder="username">
+                    <i class="fa-solid fa-building-circle-check "></i>
+                </label>
+
+                <label class="flex items-center gap-4 input input-bordered text-primary ">
+                    <span class="input_lable">Password</span>
+                    <input type="password" class="input_content" name="password" placeholder="ไม่ต้องป้อนข้อมูลในกรณีไม่ต้องการแก้ไข">
+                    <i class="fa-solid fa-building-circle-check "></i>
+                </label>
+
+                <button name="btn_submit" class="btn btn-outline btn-warning" onclick="app_event({cmd:'submit_system_user'});">
+                    <i class="fas fa-edit fa-2x"></i> บันทึก/แก้ไข
+                </button>
+
+            </div>
+        </div>
+    </div>
+    <div class="card bg-base-100" id="FromSiteData">
+        <div class="p-2">
+            <div class="flex flex-col gap-4 mx-auto max-w-80 md:max-w-md">
+                <h2 class="card-title"> Owner Config</h2>
+                <label class="flex items-center gap-4 input input-bordered text-primary ">
+                    <span class="input_lable">Site FullName</span>
+                    <input type="text" class="input_content" name="fullname" required autocomplete="off" placeholder="name">
+                    <i class="fa-solid fa-building-circle-check "></i>
+                </label>
+
+                <label class="flex items-center gap-4 input input-bordered text-primary ">
+                    <span class="input_lable">Address</span>
+                    <input type="text" class="input_content" name="address" required autocomplete="off" placeholder="name">
+                    <i class="fa-solid fa-building-circle-check "></i>
+                </label>
+
+                <label class="flex items-center gap-4 input input-bordered text-primary ">
+                    <span class="input_lable">Remark</span>
+                    <input type="text" class="input_content" name="remark" autocomplete="off" placeholder="หมายเหตุ">
+                    <i class="fa-solid fa-building-circle-check "></i>
+                </label>
+
+                <label class="flex items-center gap-4 input input-bordered text-primary ">
+                    <span class="input_lable">วันที่สร้าง</span>
+                    <input type="text" class="input_content" name="createDate" disabled autocomplete="off" placeholder="วันที่สร้าง">
+                    <i class="fa-solid fa-building-circle-check "></i>
+                </label>
+
+                <label class="input_group_label">
+                    <span class="input_lable">รายชื่อผู้ติดต่อ</span>
+                    <textarea name="contacts" required autocomplete="off" class="textarea textarea-primary input_content" rows="3" placeholder="รายชื่อผู้ติดต่อ"></textarea>
+                    <i class="fa-solid fa-building-circle-check "></i>
+                </label>
+
+                <label class="input_group_label">
+                    <span class="input_lable">วัตถุประสงค์</span>
+                    <textarea name="objectives" required autocomplete="off" class="textarea textarea-primary input_content" rows="3" placeholder="วัตถุประสงค์"></textarea>
+                    <i class="fa-solid fa-building-circle-check "></i>
+                </label>
+
+                <label class="input_group_label">
+                    <span class="input_lable">บริษัท/สังกัด(visitor)</span>
+                    <textarea name="company" required autocomplete="off" class="textarea textarea-primary input_content" rows="3" placeholder="บริษัท/สังกัด(visitor)"></textarea>
+                    <i class="fa-solid fa-building-circle-check "></i>
+                </label>
+
+                <button type="button" class="btn btn-outline btn-warning" onclick="app_event({module:'site', cmd:'submit_site'});">
+                    <i class="fas fa-edit fa-2x"></i> บันทึก/แก้ไข
+                </button>
+
+                <div class="relative h-full p-1 border rounded-md border-primary">
+                    <div class="p-1">
+                        <img src="/static/slip.png?ts=3" id="vmsSlipRegistor" class="mx-auto img-fluid" alt="">
+                    </div>
+                    <button type="button" class="absolute btn btn-lg btn-outline-warning top-2 left-2"
+                        onclick="app_event({module:'transaction', cmd:'printSlip',elementId:'vmsSlipRegistor'});">
+                        <i class="fa-solid fa-print"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<div role="tablist" class=" tabs tabs-lifted">
+    <input type="radio" name="my_tabs_2" role="tab" class="text-primary tab text-nowrap" aria-label="รายการ ยังอยู่ในพื้นที่"
+        onclick="app_event({module:'transaction', cmd: 'report_tab_selete', tab: 'transaction'});" checked />
+    <div role="tabpanel" class="p-4 overflow-auto tab-content bg-base-100 border-base-300 rounded-box">
+        <table id="table_transaction" class="table table-borderless table-hover table-striped display nowrap" style="width:100%">
+        </table>
+    </div>
+
+    <input type="radio" name="my_tabs_2" role="tab" class="tab text-nowrap" aria-label="ทำรายการ-ออก"
+        onchange="app_event({module:'transaction', cmd: 'report_tab_selete', tab: 'transaction_record'});" />
+    <div role="tabpanel" class="p-4 overflow-auto tab-content bg-base-100 border-base-300 rounded-box">
+        <label class="flex items-center gap-4 input input-bordered text-primary ">
+            <span class="input_lable">Date and time range:</span>
+            <input type="text" class="input_content" id="daterangepicker_of_transaction"
+                onchange="app_event({module:'transaction', cmd: 'report_tab_selete', tab: 'transaction_record'});">
+            <i class="far fa-calendar-alt"></i>
+        </label>
+        <table id="table_transaction_record" class="table table-borderless table-hover table-striped display nowrap" style="width:100%">
+        </table>
+    </div>
+</div>

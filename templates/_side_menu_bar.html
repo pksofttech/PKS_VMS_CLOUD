@@ -1,0 +1,68 @@
+<div class="z-50 drawer-side">
+    <label for="side-drawer" class="drawer-overlay"></label>
+    <ul id="ul_menu" class="w-64 min-h-screen gap-1 pb-10 overflow-auto font-semibold shadow-md menu bg-base-300 rounded-r-box">
+
+        <div class="text-sm text-center" id="site_user_info_side_bar-ele"><i class="fa-solid fa-user-circle"></i> </div>
+        <div id="AppClockDisplay" class="pb-4 text-5xl font-thin text-center text-primary" style="font-family: Wallpoet;"></div>
+        <div class="border rounded-btn border-success ">
+            <li>
+                <a class="nav-link" role="button" href="#" onclick="on_side_bar_event(this)" name="home">
+                    <i class="w-10 fas fa-house fa-2x text-info"></i>
+                    Home(หน้าหลัก)
+                </a>
+            </li>
+        </div>
+        <div class="border rounded-btn border-info">
+            <li>
+                <details>
+                    <summary>
+                        <i class="w-10 fa-regular fa-address-card fa-2x text-info"></i>
+                        Visitor System
+                    </summary>
+                    <ul>
+                        <li>
+                            <a class="" role="button" href="#" onclick="on_side_bar_event(this)" name="dashboard">
+                                <i class="w-10 fas fa-dashboard fa-2x"></i>
+                                Dashboard
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="" role="button" href="#" onclick="on_side_bar_event(this)" name="reports">
+                                <i class="w-10 fas fa-book-bookmark fa-2x"></i>
+                                รายงานข้อมูล
+                            </a>
+                        </li>
+
+                    </ul>
+                </details>
+            </li>
+        </div>
+
+        <div class="border rounded-btn border-warning">
+            <li>
+                <details>
+                    <summary>
+                        <i class="w-10 fa-solid fa-tools fa-2x text-info"></i>
+                        ตั้งค่าระบบ (⚙️)
+                    </summary>
+                    <ul>
+                        <li>
+                            <a class="" role="button" href="#" onclick="on_side_bar_event(this)" name="site_config">
+                                <i class="w-10 fas fa-cog fa-2x"></i>
+                                Site-config
+                            </a>
+                        </li>
+                        <li>
+                            <a class="" role="button" href="#" onclick="on_side_bar_event(this)" name="site_user">
+                                <i class="w-10 fas fa-cog fa-2x"></i>
+                                Site-user
+                            </a>
+                        </li>
+
+                    </ul>
+                </details>
+            </li>
+        </div>
+
+</div>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include '_meta.html' %}
+</head>
+
+<body class="bg-base-100 ">
+    <div class="drawer lg:drawer-open ">
+        <input id="side-drawer" type="checkbox" class="drawer-toggle" />
+        <div class="container relative flex flex-col px-2 mx-auto drawer-content">
+            {% include '_nav_bar.html' %}
+            <div class="content_box">
+                <div id="content_app" class="container-fluid">
+                </div>
+            </div>
+        </div>
+
+        {% include '_side_menu_bar.html' %}
+    </div>
+    <!-- {% include '_footer.html' %} -->
+    {% include '_modal_dialog.html' %}
+
+    {% include '_script.html' %}
+    <script type="module" src="/js/app.js?v={{now}}"></script>
+</body>
+
+</html>

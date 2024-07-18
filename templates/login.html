@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include '_meta.html' %}
+</head>
+
+<body class="">
+    <div class="max-w-full mx-auto shadow-xl card w-96 bg-base-100 image-full">
+        <figure><img src="/static/image/logo_pks.png" /></figure>
+        <div class="card-body">
+            <div class="flex flex-col card-title">
+                <div class="text-2xl text-center"><b>ระบบบริหาร</b></div>
+                <div class="text-2xl text-center">หมู่บ้าน/อาคาร/สถานที่</div>
+            </div>
+            <div class="text-2xl text-center">APP-MODE</div>
+            <select class="mx-auto select select-sm text-primary" id="input_app_mode" onchange="appSelect(this.value)">
+                <option selected>BUILDING-OWNER</option>
+                <option>VMS-DEVICES</option>
+            </select>
+            <label class="flex items-center gap-2 input input-bordered text-primary">
+                <i class="fa-solid fa-building-circle-check"></i>
+                <input type="email" class="grow" placeholder="Site Name" id="input_site_name" value="PKS-DEMO-SITE">
+                <kbd class="kbd kbd-sm">L</kbd>
+            </label>
+            <p class="">Sign in to start your session</p>
+            <label class="flex items-center gap-2 input input-bordered text-primary" id="input_username_box_from">
+                <i class="fas fa-user-alt"></i>
+                <input type="email" class="grow" placeholder="Email Or Username" id="input_username_box" value="system">
+                <i class="fas fa-lock"></i>
+            </label>
+            <label class="flex items-center gap-2 input input-bordered text-primary">
+                <i class="fas fa-building-circle-check"></i>
+                <input type="password" class="grow" placeholder="Password" id="input_password_box" value="12341234">
+                <button class="input-group-text">
+                    <kbd class="kbd kbd-sm" id="input_password_box_btn"><i class="fas fa-eye-slash"></i></kbd>
+                </button>
+            </label>
+            <button type="submit" class="text-white btn btn-primary btn-lg " id="submit_login_btn">Sign In<br>เข้าระบบ</button>
+            <hr>
+            <a href="#" class="btn btn-danger"> <i class="fa-brands fa-google"></i> Sign in using Google+</a>
+        </div>
+    </div>
+    <!-- Modal Load -->
+    <dialog id="modalWait" class="modal">
+        <div class="loader"></div>
+    </dialog>
+</body>
+{% include '_script.html' %}
+<script type="module" src="/js/login.js?v={{now}}"></script>
+
+</html>

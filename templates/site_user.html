@@ -1,0 +1,16 @@
+<div role="tablist" class=" tabs tabs-lifted">
+    <input type="radio" name="my_tabs_2" role="tab" class="text-primary tab text-nowrap" aria-label="รายการ ผู้ใช้งานระบบ"
+        onclick="app_event({module:'site', cmd: 'site_user_managment', tab: 'site_user'});" checked />
+    <div role="tabpanel" class="p-2 overflow-auto tab-content bg-base-100 border-base-300 rounded-box">
+        <table id="table_site_user_managment" class="table table-borderless table-hover table-striped display nowrap" style="width:100%">
+        </table>
+    </div>
+
+    <input type="radio" name="my_tabs_2" role="tab" class="tab text-nowrap" aria-label="ทำรายการ สมาชิก"
+        onclick="app_event({module:'site', cmd: 'site_member_managment', tab: 'site_user'});" />
+    <div role="tabpanel" class="p-2 overflow-auto tab-content bg-base-100 border-base-300 rounded-box">
+
+        <table id="table_site_member_managment" class="table table-borderless table-hover table-striped display nowrap" style="width:100%">
+        </table>
+    </div>
+</div>

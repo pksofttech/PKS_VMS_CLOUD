@@ -1,0 +1,102 @@
+<div class="sticky top-0 z-50 w-full mb-2 navbar bg-base-300 rounded-b-btn">
+    <div class="navbar-start">
+        <div class="flex items-center justify-start">
+
+            <label for="side-drawer" class="btn btn-square btn-ghost lg:hidden" id="menu_bar_navbar">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </label>
+
+            <div class="hidden lg:block">
+                <div class="flex mx-2 md:mr-24 ">
+                    <a href="#">
+                        <div class="avatar">
+                            <div class="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                                <img src="/static/favicon.svg" />
+                            </div>
+                        </div>
+                    </a>
+                    <span class="self-center ml-4 font-sans text-xl font-light text-gray-500 sm:text-2xl whitespace-nowrap" id="content_nav_bar">
+
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="gap-1 pr-2 navbar-end">
+
+        <button class=" btn btn-ghost btn-circle" onclick="window.location.reload();">
+            <i class="text-warning fa-solid fa-retweet"></i>
+        </button>
+        <select class="px-1 bg-transparent border rounded-btn border-primary " data-choose-theme>
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+            <option value="night">Night</option>
+            <option value="dracula">dracula</option>
+            <option value="coffee">coffee</option>
+            <option value="nord">Nord</option>
+            <option value="emerald">Emerald</option>
+            <option value="corporate">Corporate</option>
+            <option value="retro">Retro</option>
+            <option value="forest">Forest</option>
+            <option value="business">Business</option>
+            <option value="sunset">Sunset</option>
+            <option value="dim">Dim</option>
+            <option value="winter">Winter</option>
+        </select>
+
+        <div class="dropdown dropdown-bottom dropdown-end">
+
+            <button tabindex="0" class="btn btn-ghost btn-circle">
+                <div class=" indicator">
+                    <i class="text-lg fa-solid fa-bell "></i>
+                    <span id="message_notification_count" class="badge badge-xs badge-primary indicator-item ">0</span>
+                </div>
+            </button>
+
+            <template id="message_dropdown_content_li">
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                    <i class="mr-2 fas fa-envelope"></i> 4 new messages
+                    <span class="float-right text-sm text-muted">3 mins</span>
+                </a>
+            </template>
+            <template id="message_dropdown_content_loading">
+                <div class="spinner-border text-primary" role="status">
+                </div>
+            </template>
+            <ul tabindex="0" id="message_dropdown_content" class="p-2 shadow-2xl z-[1]  dropdown-content menu bg-base-100 rounded-box">
+                <div class="px-4 py-3">
+                    <span class="block text-sm text-center text-gray-900 dark:text-white">Message</span>
+                </div>
+            </ul>
+        </div>
+
+        <div class="dropdown dropdown-bottom dropdown-end">
+            <button tabindex="0" class="btn btn-circle btn-sm focus:ring-4 focus:ring-gray-300">
+                <img class="w-8 h-8 rounded-full" src="/static/favicon.svg" alt="user photo">
+            </button>
+
+            <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52 glass">
+                <div class="px-1 stat">
+                    <div class="stat-figure text-secondary">
+                        <div class="avatar online">
+                            <div class="rounded-full w-11">
+                                <img src="/static/favicon.svg" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="stat-value">86%</div> -->
+                    <div class="stat-title" id="info_username-ele">...</div>
+                    <div class="stat-title" id="info_fullname-ele">...</div>
+                    <div class="stat-desc text-secondary">
+                        <a class="link" role="button" onclick="app_event({cmd:'logOut'})">ออกจากระบบ</a>
+                    </div>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>

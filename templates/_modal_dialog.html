@@ -1,0 +1,242 @@
+<!-- Modal Load -->
+<dialog id="modalWait" class="modal">
+    <div class="loader"></div>
+</dialog>
+
+<!-- **NOTE -   Modal_ModalTrancastionInfo-->
+<dialog id="ModalTrancastionInfo" class="modal ">
+    <div class="modal-box">
+        <form method="dialog">
+            <button class="absolute btn btn-sm btn-circle btn-ghost right-2 top-2">✕</button>
+        </form>
+        <!-- <h3 class="text-lg font-bold" name="title">Modal title!</h3> -->
+        <div class="flex flex-col gap-2 p-2">
+            <figure class="mx-auto">
+                <img src="/static/image/bg001.jpg" name="image_in_url" id="imageWebCam01" class="rounded-lg ">
+            </figure>
+
+            <div class="gap-1 join join-vertical">
+                <div class="gap-1 join">
+                    <div role="alert" class="w-1/2 alert alert-error ">
+                        <div class="flex flex-col">
+                            <div>
+                                Registor
+                            </div>
+                            <div class="text-sm" data-datetime="true" name="create_date"></div>
+                            <div class="badge badge-secondary" name="create_by"></div>
+                        </div>
+                    </div>
+                    <div role="alert" class="w-1/2 alert alert-warning ">
+                        <div class="flex flex-col">
+                            <div>
+                                Stamp
+                            </div>
+                            <div class="text-sm" data-datetime="true" name="stamp_date"></div>
+                            <div class="badge badge-info" name="stamp_by"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gap-1 join">
+                    <div role="alert" class="w-1/2 alert alert-success ">
+                        <div class="flex flex-col">
+                            <div>
+                                Success
+                            </div>
+                            <div class="text-sm" data-datetime="true" name="success_date"></div>
+                            <div class="badge badge-info" name="success_by"></div>
+                        </div>
+                    </div>
+                    <div role="alert" class="w-1/2 alert alert-info ">
+                        <div class="flex flex-col">
+                            <div>
+                                Info
+                            </div>
+                            <div class="text-sm" data-datetime="true" name="success_date"></div>
+                            <div class="badge badge-warning" name="success_by"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <label class="flex items-center gap-4 input input-bordered text-primary ">
+                <span class="input_lable">เลขบัตร/ใบขับขี่</span>
+                <input type="text" name="card_id" readonly class="input_content ">
+
+            </label>
+            <label class="flex items-center gap-4 input input-bordered text-primary ">
+                <span class="input_lable">ชื่อ-นามสกุล</span>
+                <input type="text" name="name" readonly class="input_content ">
+
+            </label>
+
+            <label class="flex items-center gap-4 input input-bordered text-primary ">
+                <span class="input_lable">ทะเบียนรถ</span>
+                <input type="text" name="license" readonly class="input_content ">
+
+            </label>
+            <label class="flex items-center gap-4 input input-bordered text-primary ">
+                <span class="input_lable">เบอร์โทรศัพท์</span>
+                <input type="text" name="tel" readonly class="input_content ">
+
+            </label>
+
+            <label class="flex items-center gap-4 input input-bordered text-primary ">
+                <span class="input_lable">บริษัท/สังกัด(visitor)</span>
+                <input type="text" name="company" readonly class="input_content ">
+
+            </label>
+            <label class="flex items-center gap-4 input input-bordered text-primary ">
+                <span class="input_lable">วัตถุประสงค์</span>
+                <input type="text" name="objective" readonly class="input_content ">
+
+            </label>
+            <label class="flex items-center gap-4 input input-bordered text-primary ">
+                <span class="input_lable">ติดต่อ/บุคคล/แผนก/สถานที่</span>
+                <input type="text" name="contacts" readonly class="input_content ">
+
+            </label>
+        </div>
+        <div class="modal-action">
+            <form method="dialog" class="flex justify-center w-full gap-2">
+                <button class=" btn btn-warning btn-lg btn-wide">
+                    <i class="text-white fa-solid fa-circle-xmark fa-2x"></i> ปิด
+                </button>
+            </form>
+        </div>
+    </div>
+</dialog>
+
+<!-- **NOTE -   Modal_Web_Cam_Snap-->
+<dialog id="ModalWebCamSnap" class="modal ">
+    <div class="modal-box">
+        <form method="dialog">
+            <button class="absolute btn btn-sm btn-circle btn-ghost right-2 top-2">✕</button>
+        </form>
+        <h3 class="text-lg font-bold" name="title">ถ่ายรูปบัตร-ทำรายการเข้า</h3>
+        <div class="modal-action">
+            <div class="relative min-h-80">
+                <video class="mx-auto border rounded-btn" id="video_web_cam" autoplay></video>
+                <div class="absolute inset-x-0 bottom-0 inline-flex justify-between w-full gap-2 p-2">
+                    <button class="btn btn-warning btn-lg" onclick="app_event({module:'transaction', cmd:'stopWebCam'});">
+                        <i class="fa-solid fa-close fa-3x"></i>
+                    </button>
+                    <button class=" btn btn-success btn-lg" onclick="app_event({module:'transaction', cmd:'takePicture',elementId:'imageWebCam01'});">
+                        <i class="fa-solid fa-camera fa-3x "></i>
+                    </button>
+                    <button class=" btn btn-primary btn-lg" onclick="app_event({module:'transaction', cmd:'selectCamera'});">
+                        <i class="fa-solid fa-swatchbook fa-3x "></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
+
+<!-- **NOTE -   Modal_QR_CODE_SCAN-->
+<dialog id="ModalQrCodeScan" class="modal ">
+    <div class="modal-box">
+        <h3 class="text-lg font-bold" name="title">Scan Qr Code</h3>
+        <div class="min-h-80">
+            <div class="" id="qr-reader"></div>
+        </div>
+        <div class="modal-action">
+            <form method="dialog" class="flex justify-center w-full gap-2">
+                <button class="btn btn-circle btn-lg" onclick="app_event({module:'transaction', cmd:'scanQrCode',mode:false});">
+                    <i class="fa-solid fa-close fa-3x text-warning"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</dialog>
+
+
+<!-- **NOTE -   Modal_DIALOG-->
+<dialog id="DialogModal" class="modal ">
+    <div class="modal-box">
+        <h3 class="text-lg font-bold" name="title">Modal title!</h3>
+        <p class="py-4" name="content">Press ESC key or click the button below to close</p>
+        <div class="modal-action">
+            <form method="dialog" class="flex justify-between w-full gap-2">
+                <!-- if there is a button in form, it will close the modal -->
+                <button class=" btn btn-warning btn-lg">
+                    <i class="text-white fa-solid fa-circle-xmark fa-2x"></i> ยกเลิก
+                </button>
+                <button class=" btn btn-primary btn-lg" name="config_btn">
+                    <i class="text-white fa-solid fa-circle-check fa-2x"> </i> ตกลง
+                </button>
+            </form>
+        </div>
+    </div>
+</dialog>
+
+<!-- **NOTE -   ModalSiteUserAdd-->
+<dialog id="ModalSiteUserAdd" class="modal ">
+    <div class="modal-box">
+        <div class="flex flex-col gap-2">
+            <label class="flex items-center gap-4 input input-bordered text-primary ">
+                <span class="input_lable">Name</span>
+                <input type="text" class="input_content" name="username" autocomplete="off" required placeholder="username">
+                <i class="fa-solid fa-building-circle-check "></i>
+            </label>
+
+            <label class="flex items-center gap-4 input input-bordered text-primary ">
+                <span class="input_lable">Full Name</span>
+                <input type="text" class="input_content" autocomplete="off" name="full_name" required placeholder="full_name">
+                <i class="fa-solid fa-building-circle-check "></i>
+            </label>
+
+            <label class="flex items-center gap-4 input input-bordered text-primary ">
+                <span class="input_lable">Password</span>
+                <input type="password" class="input_content" autocomplete="off" name="password_hash" required placeholder="password">
+                <i class="fa-solid fa-building-circle-check "></i>
+            </label>
+
+            <label class="input_group_label">
+                <span class="input_lable">สิทธิ์การใช้งาน</span>
+                <select class="select input_content select-sm" name="role" required multiple>
+                    <option value="BOOKING">ทำรายการ Booking</option>
+                    <option value="TRANSACTION">ทำรายการเข้า-ออก</option>
+                    <option value="STAMP">ทำรายการ Stamp</option>
+                </select>
+                <i class="fa-solid fa-building-circle-check "></i>
+            </label>
+            <label class="input_group_label">
+                <span class="input_lable">สถานะ</span>
+                <select class="select input_content select-sm" name="is_active" required>
+                    <option value="ENABLE">สถานะปกติ</option>
+                    <option value="DISABLE">ปิดการใช้งาน</option>
+                </select>
+                <i class="fa-solid fa-building-circle-check "></i>
+            </label>
+
+        </div>
+        <div class="flex justify-between w-full gap-2 modal-action">
+            <form method="dialog" class="">
+                <!-- if there is a button in form, it will close the modal -->
+                <button class=" btn btn-warning btn-lg">
+                    <i class="text-white fa-solid fa-circle-xmark fa-2x"></i> ยกเลิก
+                </button>
+            </form>
+            <button class=" btn btn-primary btn-lg" onclick="app_event({module:'site', cmd:'submit_site_user'});">
+                <i class="text-white fa-solid fa-circle-check fa-2x"> </i> ตกลง
+            </button>
+        </div>
+    </div>
+</dialog>
+
+<!-- **NOTE -   Modal_DIALOG-->
+<dialog id="DialogModal_INFO_IMAGE" class="modal ">
+    <div class="modal-box">
+        <figure>
+            <img class="mx-auto rounded-btn" src="" name="image_src" />
+        </figure>
+        <div class="modal-action">
+            <form method="dialog" class="mx-auto">
+                <button class=" btn btn-primary btn-lg">
+                    <i class="text-white fa-solid fa-circle-check fa-2x"> </i> ปิด
+                </button>
+            </form>
+        </div>
+    </div>
+</dialog>

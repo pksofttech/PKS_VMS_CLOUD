@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	{% include '_meta.html' %}
+
+</head>
+
+<body class="">
+	<!-- **NOTE -  Modal_Info_Transection-->
+	{% include '_dialog_transaction_info.html' %}
+	<!-- MAIN BODY -->
+	<div class="drawer lg:drawer-open ">
+		<input id="side-drawer" type="checkbox" class="drawer-toggle" />
+		<div class="container relative flex flex-col px-2 mx-auto drawer-content">
+			{% include '_nav_bar.html' %}
+			<!-- Page content here -->
+			<div class="content_box">
+				<div role="tablist" class="overflow-x-auto tabs tabs-lifted ">
+					<input type="radio" name="tab_control" role="tab" class="tab text-nowrap" aria-label="ข้อมูลรายการ ของกล้องจับทะเบียน 🎦" checked
+						onclick="build_log_lpr_table()" />
+					<div role="tabpanel" class="p-6 tab-content bg-base-100 border-base-300 rounded-box">
+						<input type="text" class="w-full p-2 mb-2 text-lg font-medium input input-info" id="reservationtime_acc" placeholder="YYYY/MM/DD HH:MM - YYYY/MM/DD HH:MM"
+							value="" onchange="build_log_lpr_table(this.value)">
+
+						<table id="log_lpr_table" class="w-full text-sm display"></table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{% include '_side_menu_bar.html' %}
+	</div>
+
+	{% include '_footer.html' %}
+</body>
+{% include '_script.html' %}
+
+<script>
+	let PAGE_LENGTH = 10;
+	debug('PAGE_LENGTH : ' + localStorage.getItem('PAGE_LENGTH'));
+	if (localStorage.getItem('PAGE_LENGTH') == undefined) {
+		localStorage.setItem('PAGE_LENGTH', 10);
+	} else {
+		PAGE_LENGTH = localStorage.getItem('PAGE_LENGTH');
+	}
+	const DOCUMENT_DATA = {};
+	async function load_document(value) {
+		const _reply = await fetchApi("/api/document/?document=" + value, "get", null, "json");
+		debug(_reply);
+		if (_reply.success) {
+			const App_Configurations = _reply.data.App_Configurations;
+			return App_Configurations.value;
+		}
+		return null
+	}
+
+	async function get_radio_select(name) {
+		var ele = document.getElementsByName(name);
+
+		for (i = 0; i < ele.length; i++) {
+			if (ele[i].checked)
+				return ele[i].value
+		}
+		return "";
+	}
+
+	async function get_header_document(f = null) {
+		if (f) {
+			const date_time = moment().format("DD/MM/YYYY HH:mm");
+			const logo_path = location.protocol + '//' + location.host;
+			let header_report = DOCUMENT_DATA.header_report;
+			if (header_report == null) {
+				header_report = await load_document("header_report");
+				DOCUMENT_DATA.header_report = header_report;
+				//debug(header_report)
+			}
+			if (header_report) {
+				header_report = header_report.replace('src="/static', `src="${logo_path}/static`);
+				header_report = header_report.replace('[date_time]', `ข้อมูล เวลา(${date_time})`);
+				header_report = header_report.replace('[title]', "รายงาน");
+				header_report = header_report.replace('[header]', f.name);
+				header_report = header_report.replace('[sub_header]', f.table_date_range);
+
+			}
+			const header_document = header_report;
+
+			return header_document;
+		} else {
+			return "";
+		}
+	}
+
+	async function get_footer_document(f = null) {
+		if (f) {
+			const date_time = moment().format("DD/MM/YYYY HH:mm");
+			const logo_path = location.protocol + '//' + location.host;
+
+			let footer_report = DOCUMENT_DATA.footer_report;
+			if (footer_report == null) {
+				footer_report = await load_document("footer_report");
+				DOCUMENT_DATA.footer_report = footer_report;
+				//debug(header_report)
+			}
+			if (footer_report) {
+				footer_report = footer_report.replace('[name]', '{{user.name}}');
+				footer_report = footer_report.replace('src="/static', `src="${logo_path}/static`);
+			}
+			const footer_document = footer_report;
+
+			return footer_document;
+		} else {
+			return "";
+		}
+	}
+
+</script>
+
+<script>
+
+	async function build_log_lpr_table(date_range = null) {
+
+		if (typeof build_log_lpr_table.table_date_range == 'undefined') {
+			build_log_lpr_table.table_date_range = date_range;
+			return;
+		}
+		if (date_range) { build_log_lpr_table.table_date_range = date_range; }
+
+		const columns_table = [
+			{
+				data: "Lpr_Log.images_path",
+				title: "รูปรายการ",
+				orderable: false,
+				render: function (data, type) {
+					if (data) {
+						const in_images_paths = data.split(",");
+						return `
+						<div class="inline-flex gap-2">
+							<a href="${in_images_paths[0]}" target = "_blank" ><img class="duration-500 ease-in rounded-md max-h-10 hover:scale-150" src="${in_images_paths[0]}"> </a>
+							<a href="${in_images_paths[1]}" target = "_blank" ><img class="duration-500 ease-in rounded-md max-h-10 hover:scale-150" src="${in_images_paths[1]}"> </a>
+					</div>
+						`;
+					} else {
+						return "";
+					}
+				},
+			},
+			{
+				data: "Lpr_Log.id",
+				title: "Log id",
+				render: function (data, type) {
+					return String(data).padStart(10, "0");
+				},
+			},
+			{
+				data: "Lpr_Camera.device_name",
+				title: "LPR Name",
+				render: function (data, type) {
+					return data;
+				},
+			},
+			{
+				data: "Lpr_Log.plate_num",
+				title: "ทะเบียน",
+				render: function (data, type) {
+					return data;
+				},
+			},
+			{
+				data: "Lpr_Log.date_time",
+				title: "วัน-เวลา",
+				render: function (data, type) {
+					const _d = dateTimeToStr(data, "YYYY/MM/DD@HH:mm:ss");
+					const datetime = _d.split("@");
+					const warp_datatime = `<div class="flex flex-col gap-1"><div class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400">${datetime[0]}</div>
+											<div class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300">${datetime[1]}</div>
+					</div>`
+					return warp_datatime;
+				},
+			},
+			{
+				data: "Lpr_Log.status",
+				title: "Status",
+				render: function (data, type) {
+					return data;
+				},
+			},
+			{
+				data: "Lpr_Log.transaction_record_id",
+				title: "หมายเลขการทำรายการ",
+				render: function (data, type) {
+					if (!data) {
+						return `<div class="text-warning">ไม่ทำรายการ</div>`
+					}
+					return `<a role=button onclick="info_transection_show(${data})"  class="inline-flex items-center font-medium text-blue-600 dark:text-blue-500 hover:underline">
+						${String(data).padStart(6, "0")}
+						<svg aria-hidden="true" class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+						</a>`;
+
+				},
+			},
+			{
+				data: "Lpr_Log.tag",
+				title: "Tag",
+				render: function (data, type) {
+					if (data == "success") {
+						return `<div class="badge-success">success</div>`;
+					}
+					return `<div class="badge-warning">${data}</div>`;
+				},
+			},
+
+		];
+
+		//debug(columns_table)
+		headers = await get_headers();
+		const header_document = await get_header_document(build_log_lpr_table);
+		const footer_document = await get_footer_document(build_log_lpr_table);
+		$("#log_lpr_table").DataTable({
+
+			//dom: "Blfip",
+			dom: '<"top"iBf>rt<"bottom"lp><"clear">',
+			buttons: buttons_datatable(header_document, footer_document),
+			columnDefs: columnDefs,
+			destroy: true,
+			autoWidth: false,
+			lengthMenu: lengthMenu,
+			pageLength: PAGE_LENGTH,
+			scrollY: "50vh",
+			scrollCollapse: true,
+			sScrollX: "100%",
+			// "paging": false
+			columns: columns_table,
+			dataset: [],
+			order: [[0, "desc"]],
+			processing: true,
+			serverSide: true,
+			search: {
+				return: true,
+			},
+			ajax: {
+				headers: headers,
+				type: "GET",
+				url: `/lpr/datatable`,
+				data: function (d) {
+					d.date_range = build_log_lpr_table.table_date_range;
+
+				},
+				error: function (xhr, textStatus, errorThrown) {
+					//window.location.reload();
+					debug(textStatus)
+					toastMixin.fire({
+						title: textStatus,
+						icon: "error",
+					});
+
+				},
+			},
+		});
+
+		$('#log_lpr_table').on('length.dt', function (e, settings, len) {
+			PAGE_LENGTH = len;
+			localStorage.setItem('PAGE_LENGTH', len);
+		});
+	}
+	build_log_lpr_table();
+
+	async function info_transection_show(id) {
+		const _reply = await fetchApi("/api/transaction_record/?id=" + id, "get", null, "json");
+		if (_reply.success) {
+			const d = _reply.data;
+			debug(d)
+			const Modal_Info_Transection_Content_time_line = document.getElementById("Modal_Info_Transection_Content_time_line");
+			document.getElementById("Modal_Info_Transection_ID").innerHTML = "หมายเลขรายการ : " + String(d.Transaction_Record.id).padStart(10, "0");
+			let warp_datatime = "";
+			if (d.In_Log) {
+				const _d = dateTimeToStr(d.In_Log.date_time, "YYYY/MM/DD@HH:mm:ss");
+				const datetime = _d.split("@");
+				warp_datatime = `<div class="flex gap-1 mr-12">
+				<div class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400">${datetime[0]}</div>
+				<div class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300">${datetime[1]}</div>
+					</div>`
+			}
+
+			document.getElementById("Modal_Info_Transection_Card_id").innerHTML = "หมายเลขบัตร : " + d.Transaction_Record.card_id + "  " + warp_datatime;
+
+			Modal_Info_Transection_Content_time_line.innerHTML = "";
+			const temp = document.getElementById("template_Info_Transection_Content");
+
+			const _c_in = temp.content.cloneNode(true);
+			const license = d.In_Log ? d.In_Log.license : "-";
+
+			_c_in.querySelectorAll('[name="system_user_img"]')[0].src = d.In_Log ? d.In_System_User.pictureUrl : "";
+			_c_in.querySelectorAll('[name="time_line_type"]')[0].innerHTML = "ทำรายการเข้า :" + `<span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300 ">ทะเบียน:${license}</span>`;
+			_c_in.querySelectorAll('[name="date_time"]')[0].innerText = d.In_Log ? moment(d.In_Log.date_time) : "";
+			_c_in.querySelectorAll('[name="system_user_name"]')[0].innerText = d.In_Log ? d.In_System_User.name : "";
+			_c_in.querySelectorAll('[name="gate_name"]')[0].innerText = d.In_Log ? d.In_Gateway.name : "";
+			if (d.In_Log) {
+				const _images = d.In_Log.images_path.split(",");
+				const image_trans = `
+								<a href="${_images[0]}" target = "_blank" ><img src="${_images[0]}?t={{now}}" loading="lazy" class="w-32 rounded-lg" /></a>
+								<a href="${_images[1]}" target = "_blank" ><img  src="${_images[1]}?t={{now}}" loading="lazy" class="w-32 rounded-lg" /></a>
+								`
+				_c_in.querySelectorAll('[name="image_trans"]')[0].innerHTML = image_trans;
+			}
+
+			Modal_Info_Transection_Content_time_line.appendChild(_c_in);
+
+			if (d.Out_Log) {
+				const _c_in = temp.content.cloneNode(true);
+
+				_c_in.querySelectorAll('[name="system_user_img"]')[0].src = d.Out_System_User.pictureUrl;
+				_c_in.querySelectorAll('[name="time_line_type"]')[0].innerHTML = "ทำรายการออก"
+				_c_in.querySelectorAll('[name="date_time"]')[0].innerText = moment(d.Out_Log.date_time);
+				_c_in.querySelectorAll('[name="system_user_name"]')[0].innerText = d.Out_System_User.name;
+				_c_in.querySelectorAll('[name="gate_name"]')[0].innerText = d.Out_Gateway.name;
+
+				const _images = d.Out_Log.images_path.split(",");
+				debug(_images)
+				const image_trans = `
+								<a href="${_images[0]}" target = "_blank" ><img src="${_images[0]}?t={{now}}" loading="lazy" class="w-32 rounded-lg" /></a>
+								<a href="${_images[1]}" target = "_blank" ><img  src="${_images[1]}?t={{now}}" loading="lazy" class="w-32 rounded-lg" /></a>
+								`
+				_c_in.querySelectorAll('[name="image_trans"]')[0].innerHTML = image_trans;
+				Modal_Info_Transection_Content_time_line.appendChild(_c_in);
+				document.getElementById("Modal_Info_Transection_parked").innerHTML = `<i class="nav-icon fa-2x fa fa-clock text-info"></i> <span class="bg-green-100 text-green-800 text-md font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">${sec_to_duration(d.Transaction_Record.parked)}</span>`;
+
+			} else {
+				if (d.Transaction_Record.status == "CHECK_IN") {
+					document.getElementById("Modal_Info_Transection_parked").innerHTML = `<i class="nav-icon fa-2x fa fa-clock text-info"></i> <span class="bg-red-100 text-red-800 text-md font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">${moment(d.In_Log.date_time).fromNow()}</span>`;
+				}
+			}
+			document.getElementById("Modal_Info_Transection_status").innerHTML = `<i class="nav-icon fa-2x fa fa-file-shield text-info"></i> <span class="bg-info  text-md font-medium mr-2 px-2.5 py-0.5 rounded ">สถานะ : ${d.Transaction_Record.status}</span>`;
+			document.getElementById("Modal_Info_Transection_remark").innerHTML = `<i class="nav-icon fa-2x fa fa-message text-success"></i> <span class="bg-success  text-md font-medium mr-2 px-2.5 py-0.5 rounded ">หมายเหตุ : ${d.Transaction_Record.remark}</span>`;
+
+			Modal_Info_Transection.showModal();
+
+		}
+	}
+
+</script>
+
+
+<script>
+
+	$("#reservationtime_acc").daterangepicker({
+		ranges: {
+			วันนี้: [moment().hour(0).minute(0), moment().hour(23).minute(59)],
+			เมื่อวานนี้: [moment().hour(0).minute(0).subtract(1, "days"), moment().hour(23).minute(59).subtract(1, "days")],
+			"7 วันก่อน": [moment().subtract(6, "days"), moment()],
+			"30 วันก่อน": [moment().subtract(29, "days"), moment()],
+			เดือนนี้: [moment().startOf("month"), moment().endOf("month")],
+			เดือนก่อน: [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")],
+			ปีนี้: [moment().startOf("year"), moment().endOf("year")],
+			ปีก่อน: [moment().subtract(1, "year").startOf("year"), moment().subtract(1, "year").endOf("year")],
+		},
+		timePicker24Hour: true,
+		timePicker: true,
+		timePickerIncrement: 1,
+		locale: {
+			format: "YYYY/MM/DD HH:mm",
+		},
+	});
+
+</script>
+
+
+</html>
