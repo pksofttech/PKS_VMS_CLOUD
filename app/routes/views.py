@@ -100,7 +100,7 @@ async def page_main(
     )
 
 
-@router.get("/page")
+@router.get("/page/")
 async def ep_page(
     page: str,
     db: AsyncSession = Depends(get_async_session),
