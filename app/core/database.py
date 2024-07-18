@@ -39,14 +39,14 @@ SQLALCHEMY_DATABASE_URL = f"postgresql+asyncpg://root:{postgres_database_passwor
 # for elephantsql DB
 # SQLALCHEMY_DATABASE_URL = "postgresql+asyncpg://ucqvdwlc:Ie6Wo6hbKgp2DVp-ml9qgfYVggRnxeFQ@rosie.db.elephantsql.com/ucqvdwlc"
 
-async_engine = create_async_engine(SQLALCHEMY_DATABASE_URL)
 
-
-# SQLALCHEMY_DATABASE_URL = "sqlite+aiosqlite:///sqlacm.db"
+SQLALCHEMY_DATABASE_URL = "sqlite+aiosqlite:///sqlacm.db"
 # # ? connect_args={"check_same_thread": False} For Sqlite เท่านั้น
-# async_engine = create_async_engine(
-#     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-# )
+async_engine = create_async_engine(
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+)
+
+async_engine = create_async_engine(SQLALCHEMY_DATABASE_URL)
 
 print_success(f"create_async_engine \n{SQLALCHEMY_DATABASE_URL} \n{async_engine}")
 # ? MAIN LIB+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
